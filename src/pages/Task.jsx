@@ -2,18 +2,32 @@ import React from "react";
 import edit from "../assets/edit.svg";
 import logout from "../assets/log_out.svg";
 import plus from "../assets/plus.svg";
-import check from "../assets/checkpurple.svg";
-import trash from "../assets/trash.svg";
 import { useEffect } from "react";
 import usePostTask from "../config/postTask";
 import { TaskForm } from "../components";
+import { useNavigate } from "react-router-dom";
 
 const Task = () => {
-  const { posts, getPosts } = usePostTask();
+  const { posts, getPosts, deletePost } = usePostTask();
 
   useEffect(() => {
     getPosts();
   }, [getPosts]);
+
+  const handleDelete = (id) => {
+    deletePost(id);
+    getPosts();
+  };
+
+  const navigate = useNavigate();
+
+  const buttonLogOut = () => {
+    navigate("/");
+  };
+  const buttonEditProfile = () => {
+    navigate("/update-profile");
+  };
+
   return (
     <div className="flex">
       {/* profile */}
@@ -27,13 +41,13 @@ const Task = () => {
         <h1 className="text-white">
           Welcome Back, <span className="font-bold">Sarah!</span>
         </h1>
-        <div className="flex justify-center mt-3">
+        <div className="flex justify-center mt-3" onClick={buttonEditProfile}>
           <button className="flex items-center justify-center font-light text-white bg-[#2C2C2C] w-32 h-10 rounded-md">
             <img src={edit} alt="edit" className="mr-3" />
             Edit Profile
           </button>
         </div>
-        <div className="flex justify-center mt-3">
+        <div className="flex justify-center mt-3" onClick={buttonLogOut}>
           <button className="flex items-center justify-center font-light text-white bg-red-600 w-32 h-10 rounded-md">
             <img src={logout} alt="edit" className="mr-3" />
             Sign Out
@@ -69,9 +83,13 @@ const Task = () => {
           <h1 className="text-white text-left mt-14 mb-3">Tasks to do - 4</h1>
 
           {posts.map((post) => (
-            <div key={post._id}>
-              <TaskForm _id={post._id} title={post.title} />
-            </div>
+            <TaskForm
+              key={post._id}
+              props={{
+                title: post.title,
+                onDelete: () => handleDelete(post._id),
+              }}
+            />
           ))}
 
           <h1 className="text-white text-left mt-14 mb-3">Done - 1</h1>
