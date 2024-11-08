@@ -1,8 +1,7 @@
 import Button from "./atoms/button";
-import Email from "./atoms/email";
-import Password from "./atoms/password";
-import Upload from "./atoms/upload";
 import TaskForm from "./molecules/taskForm";
+import TaskDone from "./molecules/taksDone";
 import Input from "./atoms/input";
+import Image from "./atoms/image";
 
-export { Button, TaskForm, Email, Password, Upload, Input };
+export { Button, TaskForm, Input, Image, TaskDone };

@@ -3,7 +3,7 @@ import check from "../../assets/checkpurple.svg";
 import trash from "../../assets/trash.svg";
 
 function TaskPost({ props }) {
-  const { title, onDelete } = props;
+  const { title } = props;
   return (
     <div className="flex bg-[#15101C] p-4 rounded-lg mb-2">
       <div className="text-[#9E78CF] flex-1 text-left">
@@ -12,12 +12,7 @@ function TaskPost({ props }) {
       <div className="flex items-center justify-end">
         <div className="mx-2">
           <button>
-            <img
-              src={check}
-              alt="check"
-              className="w-4 h-4"
-              onClick={onDelete}
-            />
+            <img src={check} alt="check" className="w-4 h-4" />
           </button>
         </div>
         <div className="mx-2">

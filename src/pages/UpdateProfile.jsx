@@ -1,7 +1,8 @@
 import React from "react";
 import arrowIcon from "../assets/left_arrow.svg";
-import { Upload, Input, Email, Password, Button } from "../components";
+import { Input, Button, Image } from "../components";
 import { useNavigate } from "react-router-dom";
+import Check from "../assets/Check.svg";
 
 const UpdateProfile = () => {
   const navigate = useNavigate();
@@ -21,24 +22,55 @@ const UpdateProfile = () => {
         <form className="space-y-6" action="#" method="POST">
           {/* upload image...*/}
           <div>
-            <Upload src="https://i.pinimg.com/564x/02/ae/7a/02ae7a44746827850f0ec9687c78af8d.jpg" />
+            <Image src="https://i.pinimg.com/564x/02/ae/7a/02ae7a44746827850f0ec9687c78af8d.jpg" />
+            <div>
+              <Input
+                label="Profile URL"
+                htmlFor="profile"
+                id="profile"
+                name="profile"
+                type="url"
+                placeholder="<Image URL>"
+              />
+            </div>
           </div>
 
           {/* input name */}
           <div>
-            <Input />
+            <Input
+              label="Name"
+              htmlFor="name"
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Sarah Santoso"
+            />
           </div>
 
           <div>
-            <Email />
+            <Input
+              label="Email"
+              htmlFor="email"
+              id="email"
+              name="email"
+              type="email"
+              placeholder="sarah.santoso@gmail.com"
+            />
           </div>
 
           <div>
-            <Password />
+            <Input
+              label="Password"
+              htmlFor="password"
+              id="password"
+              name="password"
+              type="password"
+              placeholder="*******"
+            />
           </div>
 
-          <div>
-            <Button title="Submit" />
+          <div className="w-full bg-[#523C72] hover:bg-[#6a4d95] rounded-md ">
+            <Button src={Check} title="Submit" />
           </div>
         </form>
       </div>
