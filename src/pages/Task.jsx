@@ -6,6 +6,7 @@ import edit from "../assets/edit.svg";
 import logout from "../assets/log_out.svg";
 import plus from "../assets/plus.svg";
 import { TaskForm, TaskDone, Image, Button } from "../components";
+import Swal from "sweetalert2";
 
 const Task = () => {
   const { posts, getPosts } = usePostTask();
@@ -23,6 +24,38 @@ const Task = () => {
     navigate("/update-profile");
   };
 
+  const dummyName = { title: "Sarah" };
+
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Apakah anda yakin?",
+      text: "Anda tidak dapat mengembalikan ini!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Hapus!",
+      cancelButtonText: "Tidak",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Dihapus!",
+          text: "Task anda telah dihapus.",
+          icon: "success",
+        });
+      }
+    });
+  };
+
+  const handleComplete = () => {
+    Swal.fire({
+      title: "Berhasil!",
+      text: "Task anda sudah selesai.",
+      icon: "success",
+      imageAlt: "Custom image",
+    });
+  };
+
   return (
     <div className="flex">
       {/* profile */}
@@ -31,7 +64,7 @@ const Task = () => {
           <Image src="https://i.pinimg.com/564x/02/ae/7a/02ae7a44746827850f0ec9687c78af8d.jpg" />
         </div>
         <h1 className="text-white">
-          Welcome Back, <span className="font-bold">Sarah!</span>
+          Welcome Back, <span className="font-bold">{dummyName.title}!</span>
         </h1>
         <div
           className="flex justify-center mt-3 bg-[#2C2C2C] w-32 h-10 rounded-md"
@@ -75,13 +108,14 @@ const Task = () => {
           <h1 className="text-white text-left mt-14 mb-3">
             Tasks to do - {posts.length}
           </h1>
-          {/*  */}
           <div>
             {posts.map((post) => (
               <TaskForm
                 key={post._id}
                 props={{
                   title: post.title,
+                  onDelete: handleDelete,
+                  onComplete: handleComplete,
                 }}
               />
             ))}
@@ -90,7 +124,6 @@ const Task = () => {
           <h1 className="text-white text-left mt-14 mb-3">
             Done - {posts.length}
           </h1>
-          {/*  */}
           <div>
             {posts.map((post) => (
               <TaskDone

@@ -9,7 +9,9 @@ const UpdateProfile = () => {
   const buttonBack = () => {
     navigate("/task");
   };
-
+  const bututonSubmit = () => {
+    navigate("/task");
+  };
   return (
     <div className="flex min-h-full flex-col justify-center px-10  rounded-xl lg:px-8 bg-[#1D1825]">
       <div className=" mt-5 mb-10 sm:mx-auto sm:w-96 sm:max-w-sm ">
@@ -70,7 +72,7 @@ const UpdateProfile = () => {
           </div>
 
           <div className="w-full bg-[#523C72] hover:bg-[#6a4d95] rounded-md ">
-            <Button src={Check} title="Submit" />
+            <Button src={Check} title="Submit" onClick={bututonSubmit} />
           </div>
         </form>
       </div>
