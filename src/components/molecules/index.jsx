@@ -1,3 +1,4 @@
 import TaskForm from "./taskForm";
+import InputForm from "./form";
 
-export default TaskForm;
+export default { TaskForm, InputForm };

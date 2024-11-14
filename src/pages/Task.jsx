@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import edit from "../assets/edit.svg";
 import logout from "../assets/log_out.svg";
-import plus from "../assets/plus.svg";
-import { TaskForm, TaskDone, Image, Button } from "../components";
+import { TaskForm, TaskDone, Image, Button, InputForm } from "../components";
 import Swal from "sweetalert2";
 
 const Task = () => {
@@ -83,28 +82,9 @@ const Task = () => {
       {/* right task */}
       <div className="flex min-h-full flex-col justify-center  rounded-xl lg:px-8 bg-[#1D1825] py-6">
         <div className=" sm:mx-auto sm:w-96 sm:max-w-sm ">
-          <form className="space-y-6" action="#" method="POST">
-            <div className="flex justify-center items-center">
-              <input
-                id="task"
-                name="task"
-                type="text"
-                autoComplete="task"
-                placeholder="Add a new task"
-                required
-                className="p-3 block w-full rounded-md border-0 py-1.5 text-white ring-1 
-               ring-[#916bc9] placeholder:text-gray-400  sm:text-sm/6 bg-[#1D1825]"
-              />
-
-              <button
-                type="submit"
-                className="flex items-center w-11 h-10 justify-center rounded-lg bg-[#916bc9] hover:bg-[#6a4d95] ml-3"
-              >
-                <img src={plus} alt="" className="w-5" />
-              </button>
-            </div>
-          </form>
-
+          <div>
+            <InputForm />
+          </div>
           <h1 className="text-white text-left mt-14 mb-3">
             Tasks to do - {posts.length}
           </h1>
@@ -121,19 +101,8 @@ const Task = () => {
             ))}
           </div>
 
-          <h1 className="text-white text-left mt-14 mb-3">
-            Done - {posts.length}
-          </h1>
-          <div>
-            {posts.map((post) => (
-              <TaskDone
-                key={post._id}
-                props={{
-                  title: post.title,
-                }}
-              />
-            ))}
-          </div>
+          <h1 className="text-white text-left mt-14 mb-3">Done -</h1>
+          <div></div>
         </div>
       </div>
     </div>

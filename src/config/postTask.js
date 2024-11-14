@@ -15,6 +15,29 @@ const usePostTask = create((set, get) => ({
   getPostsById: (id) => {
     return get().posts.find((post) => post._id == id);
   },
+  addPost: (post) => {
+    set((state) => ({
+      posts: [
+        ...state.posts,
+        {
+          ...post,
+          _id: state.posts.length + 1,
+        },
+      ],
+    }));
+  },
+  updatePost: (id, updatedPost) => {
+    set((state) => ({
+      posts: state.posts.map((post) =>
+        post._id == id
+          ? {
+              ...post,
+              ...updatedPost,
+            }
+          : post
+      ),
+    }));
+  },
 }));
 
 export default usePostTask;
