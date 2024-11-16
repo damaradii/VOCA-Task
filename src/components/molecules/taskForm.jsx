@@ -3,7 +3,7 @@ import check from "../../assets/checkpurple.svg";
 import trash from "../../assets/trash.svg";
 
 function TaskForm({ props }) {
-  const { title, onDelete, onComplete } = props;
+  const { title, onDelete, onComplete, id } = props;
 
   return (
     <div className="flex bg-[#15101C] p-4 rounded-lg mb-2">
@@ -12,7 +12,7 @@ function TaskForm({ props }) {
       </div>
       <div className="flex items-center justify-end">
         <div className="mx-2">
-          <button onClick={onComplete}>
+          <button onClick={() => onComplete(id)}>
             <img src={check} alt="check" className="w-4 h-4" />
           </button>
         </div>

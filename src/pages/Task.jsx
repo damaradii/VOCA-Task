@@ -1,5 +1,5 @@
 import React from "react";
-import usePostTask from "../config/postTask";
+import { usePostTask } from "../config/postTask";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import edit from "../assets/edit.svg";
@@ -8,7 +8,7 @@ import { TaskForm, TaskDone, Image, Button, InputForm } from "../components";
 import Swal from "sweetalert2";
 
 const Task = () => {
-  const { posts, getPosts } = usePostTask();
+  const { posts, getPosts, deletePost } = usePostTask();
 
   useEffect(() => {
     getPosts();
@@ -25,7 +25,7 @@ const Task = () => {
 
   const dummyName = { title: "Sarah" };
 
-  const handleDelete = () => {
+  const handleDelete = (id) => {
     Swal.fire({
       title: "Apakah anda yakin?",
       text: "Anda tidak dapat mengembalikan ini!",
@@ -37,6 +37,7 @@ const Task = () => {
       cancelButtonText: "Tidak",
     }).then((result) => {
       if (result.isConfirmed) {
+        deletePost(id);
         Swal.fire({
           title: "Dihapus!",
           text: "Task anda telah dihapus.",
@@ -46,13 +47,15 @@ const Task = () => {
     });
   };
 
-  const handleComplete = () => {
+  const { updatePost } = usePostTask();
+  const handleComplete = async (id) => {
+    await updatePost(id, { isDone: true });
     Swal.fire({
       title: "Berhasil!",
       text: "Task anda sudah selesai.",
       icon: "success",
-      imageAlt: "Custom image",
     });
+    getPosts();
   };
 
   return (
@@ -86,23 +89,40 @@ const Task = () => {
             <InputForm />
           </div>
           <h1 className="text-white text-left mt-14 mb-3">
-            Tasks to do - {posts.length}
+            Tasks to do - {posts.filter((post) => !post.isDone).length}
           </h1>
           <div>
-            {posts.map((post) => (
-              <TaskForm
-                key={post._id}
-                props={{
-                  title: post.title,
-                  onDelete: handleDelete,
-                  onComplete: handleComplete,
-                }}
-              />
-            ))}
+            {posts
+              .filter((post) => !post.isDone)
+              .map((post) => (
+                <TaskForm
+                  key={post._id}
+                  props={{
+                    id: post._id,
+                    title: post.title,
+                    onDelete: () => handleDelete(post._id),
+                    onComplete: handleComplete,
+                  }}
+                />
+              ))}
           </div>
 
-          <h1 className="text-white text-left mt-14 mb-3">Done -</h1>
-          <div></div>
+          {/* done tasks */}
+          <h1 className="text-white text-left mt-14 mb-3">
+            Done - {posts.filter((post) => post.isDone).length}
+          </h1>
+          <div>
+            {posts
+              .filter((post) => post.isDone)
+              .map((post) => (
+                <TaskDone
+                  key={post._id}
+                  props={{
+                    title: post.title,
+                  }}
+                />
+              ))}
+          </div>
         </div>
       </div>
     </div>

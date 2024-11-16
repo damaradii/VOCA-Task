@@ -1,10 +1,10 @@
 import plus from "../../assets/plus.svg";
-import useFormTask from "../../config/formTask";
-import usePostTask from "../../config/postTask";
+import { useFormTask } from "../../config/formTask";
+import { usePostTask } from "../../config/postTask";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-function InputForm({ className, ...props }) {
+function InputForm({ className }) {
   const { getPostsById, addPost } = usePostTask();
   const { form, setFormData } = useFormTask();
   const { title } = form;
@@ -12,8 +12,11 @@ function InputForm({ className, ...props }) {
 
   useEffect(() => {
     if (id) {
-      const post = getPostsById(id);
-      if (post) setFormData("title", post.title);
+      const fetchData = async () => {
+        const post = await getPostsById(id);
+        if (post) setFormData("title", post.title);
+      };
+      fetchData();
     }
   }, [id, getPostsById, setFormData]);
 

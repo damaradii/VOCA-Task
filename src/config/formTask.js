@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const useFormTask = create((set) => ({
+export const useFormTask = create((set) => ({
   form: {
     title: "",
   },
@@ -9,5 +9,3 @@ const useFormTask = create((set) => ({
       form: { ...state.form, [formtype]: formValue },
     })),
 }));
-
-export default useFormTask;
