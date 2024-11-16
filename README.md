@@ -1,65 +1,38 @@
 # VOCA Task
 
-**PENTING**: Tugas ini akan dilanjutkan hingga Part 3 atau 4. Karena itu, diharapkan untuk memaksimalkan tugas dengan menyelesaikan dengan baik
+## Deskripsi
 
-## Part 1 (Slicing Design)
+Proyek ini adalah aplikasi berbasis web yang memungkinkan pengguna untuk mengelola tugas mereka dengan mudah. Aplikasi ini mencakup fitur login, manajemen tugas, dan pengeditan profil. Desainnya mengacu pada [Figma File](https://www.figma.com/design/eHHj1Cw9DEi6Ky2drkdPD1/Voca-Task?node-id=0-1&t=sHLgL56IvpXRa8Gm-1) dengan fungsionalitas yang jelas dan interface yang responsif.
 
-Buatlah design dengan mengacu kepada figma tersebut:
+## Fitur Utama
 
-[Figma File](https://www.figma.com/design/eHHj1Cw9DEi6Ky2drkdPD1/Voca-Task?node-id=0-1&t=sHLgL56IvpXRa8Gm-1) 
+1. **Login Page**
 
-Keterangan:
-- Boleh menggunakan framework UI apapun, disarankan menggunakan [Chakra UI](https://www.chakra-ui.com/docs/components/concepts/overview) 
-- Design boleh disesuaikan dengan preferensi masing-masing, tetapi perlu mencakup fungsionalitas berikut:
-    
-    ### 1. Login Page:
+   - Formulir untuk email dan password
+   - Tombol "Sign In" untuk masuk
 
-    - 1.a Form Email
+2. **Task Page**
 
-    - 1.b Form Password
+   - **Main Section**
+     - Formulir untuk menambahkan tugas baru
+     - Daftar tugas dengan tombol "Done" dan "Delete"
+     - Tugas yang sudah selesai ditampilkan di bagian terpisah
+     - Penghitungan jumlah tugas
+   - **Profile Section**
+     - Pesan "Welcome ${Name}"
+     - Menampilkan avatar pengguna
+     - Tombol untuk mengedit profil
+     - Tombol untuk keluar
 
-    - 1.c Button Sign In
+3. **Edit Profile Page**
+   - Tampilkan dan ubah avatar
+   - Input untuk URL profil, nama, email, dan password
+   - Tombol "Submit" untuk menyimpan perubahan
+   - Tombol "Back to Task Page" untuk kembali ke halaman utama
 
-    ### 2. Task Page:
+## Teknologi
 
-    - 2.a Main Section
-
-        - 2.a.a Form Add New Task
-
-        - 2.a.b Task Card, with **Done** and **Delete** Button
-
-        - 2.a.c Task Done Section
-
-        - 2.a.d Count for Tasks list
-
-    - 2.b Profile Section
-
-        - 2.b.a Welcome ${Name} Message, Display Avatar
-
-        - 2.b.b Edit Profile Button
-
-        - 2.b.c Sign Out Button
-
-     ### 3. Edit Profile Page:
-
-    - 3.a Display Avatar
-
-    - 3.b Input Profile URL
-
-    - 3.c Input Name
-
-    - 3.d Input Email (Type Email)
-
-    - 3.e Input Password (Type Password)
-
-    - 3.f Button Submit
-
-    - 3.g Button Back to Task Page
-
-
-## Coverage Lessons
-
-1. React Component Essentials with Vite
-2. Local State and Props
-3. React Page Routing
-4. Framework UI Usage
+- **Frontend:** React + Tailwind CSS
+- **Backend:** [Indraahmadfirdaus - Voca Task BE](https://github.com/indraahmadfirdaus/vocasia-voca-task-be)
+- **Routing:** React Router
+- **State Management:** React Local State
