@@ -1,21 +1,27 @@
 import axios from "axios";
-
-const token = localStorage.getItem("token");
+import { getAccessToken } from "../utils/tokenManager";
 
 const config = {
   baseURL: "http://localhost:8080/api",
   headers: {
-    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
   },
 };
 
 export const axiosInstance = axios.create(config);
 
-axiosInstance.interceptors.response.use(
-  (response) => {
-    return response.data;
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+    return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => response.data,
+  (error) => Promise.reject(error)
 );

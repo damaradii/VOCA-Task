@@ -1,29 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { usePostTask } from "../config/postTask";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import Swal from "sweetalert2";
+import { TaskForm, TaskDone, Image, Button, InputForm } from "../components";
 import edit from "../assets/edit.svg";
 import logout from "../assets/log_out.svg";
-import { TaskForm, TaskDone, Image, Button, InputForm } from "../components";
-import Swal from "sweetalert2";
+import { useAuth } from "../config/auth";
+import { removeAccessToken } from "../utils/tokenManager";
 
 const Task = () => {
-  const { posts, getPosts, deletePost } = usePostTask();
+  const { posts, getPosts, deletePost, updatePost } = usePostTask();
+  const { user, refreshUser } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getPosts();
-  }, [getPosts]);
-
-  const navigate = useNavigate();
-
-  const buttonLogOut = () => {
-    navigate("/");
-  };
-  const buttonEditProfile = () => {
-    navigate("/update-profile");
-  };
-
-  const dummyName = { title: "Sarah" };
+    refreshUser(); // Refresh user data when component is mounted
+  }, [getPosts, refreshUser]);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -38,36 +31,45 @@ const Task = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         deletePost(id);
-        Swal.fire({
-          title: "Dihapus!",
-          text: "Task anda telah dihapus.",
-          icon: "success",
-        });
+        Swal.fire("Dihapus!", "Task anda telah dihapus.", "success");
       }
     });
   };
 
-  const { updatePost } = usePostTask();
   const handleComplete = async (id) => {
     await updatePost(id, { isDone: true });
-    Swal.fire({
-      title: "Berhasil!",
-      text: "Task anda sudah selesai.",
-      icon: "success",
-    });
+    Swal.fire("Berhasil!", "Task anda sudah selesai.", "success");
     getPosts();
   };
 
+  const validPosts = Array.isArray(posts) ? posts : [];
+
+  const buttonLogOut = () => {
+    localStorage.removeItem("user");
+    removeAccessToken();
+    navigate("/");
+  };
+
+  const buttonEditProfile = () => navigate("/update-profile");
+
   return (
-    <div className="flex">
-      {/* profile */}
-      <div className="flex items-center min-h-full flex-col justify-center px-10 py-10 rounded-xl lg:px-8 bg-[#1D1825] mr-5 h-96">
-        <div className="flex justify-center">
-          <Image src="https://i.pinimg.com/564x/02/ae/7a/02ae7a44746827850f0ec9687c78af8d.jpg" />
-        </div>
+    <div className="flex flex-col md:flex-row md:m-5">
+      {/* User */}
+      <div
+        className="flex flex-col items-center justify-center px-10 py-10 
+      rounded-xl lg:px-8 bg-[#1D1825] mb-5 md:mr-5 h-auto md:h-96"
+      >
+        <Image
+          src={
+            user?.photo_url ||
+            "https://i.pinimg.com/564x/02/ae/7a/02ae7a44746827850f0ec9687c78af8d.jpg"
+          }
+        />
         <h1 className="text-white">
-          Welcome Back, <span className="font-bold">{dummyName.title}!</span>
+          Welcome Back,{" "}
+          <span className="font-bold">{user?.name || "Guest"}</span>
         </h1>
+
         <div
           className="flex justify-center mt-3 bg-[#2C2C2C] w-32 h-10 rounded-md"
           onClick={buttonEditProfile}
@@ -82,17 +84,17 @@ const Task = () => {
         </div>
       </div>
 
-      {/* right task */}
-      <div className="flex min-h-full flex-col justify-center  rounded-xl lg:px-8 bg-[#1D1825] py-6">
-        <div className=" sm:mx-auto sm:w-96 sm:max-w-sm ">
-          <div>
+      {/* Task Panel */}
+      <div className="flex flex-col justify-center rounded-xl lg:px-8 bg-[#1D1825] py-6">
+        <div className="sm:mx-auto sm:w-96 sm:max-w-sm space-y-5">
+          <div className="lg:mx-0 mx-5">
             <InputForm />
           </div>
-          <h1 className="text-white text-left mt-14 mb-3">
-            Tasks to do - {posts.filter((post) => !post.isDone).length}
+          <h1 className="text-white text-left lg:mb-0 lg:mx-0 mx-5">
+            Tasks to do - {validPosts.filter((post) => !post.isDone).length}
           </h1>
-          <div>
-            {posts
+          <div className="lg:mx-0 mx-5">
+            {validPosts
               .filter((post) => !post.isDone)
               .map((post) => (
                 <TaskForm
@@ -101,26 +103,19 @@ const Task = () => {
                     id: post._id,
                     title: post.title,
                     onDelete: () => handleDelete(post._id),
-                    onComplete: handleComplete,
+                    onComplete: () => handleComplete(post._id),
                   }}
                 />
               ))}
           </div>
-
-          {/* done tasks */}
-          <h1 className="text-white text-left mt-14 mb-3">
-            Done - {posts.filter((post) => post.isDone).length}
+          <h1 className="text-white text-left m-3 lg:mx-0 mx-5">
+            Done - {validPosts.filter((post) => post.isDone).length}
           </h1>
-          <div>
-            {posts
+          <div className="lg:mx-0 mx-5">
+            {validPosts
               .filter((post) => post.isDone)
               .map((post) => (
-                <TaskDone
-                  key={post._id}
-                  props={{
-                    title: post.title,
-                  }}
-                />
+                <TaskDone key={post._id} props={{ title: post.title }} />
               ))}
           </div>
         </div>

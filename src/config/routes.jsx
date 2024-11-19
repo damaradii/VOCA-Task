@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
     element: <Task />,
   },
   {
-    path: "/Update-profile",
+    path: "/update-profile",
     element: <UpdateProfile />,
   },
 ]);
