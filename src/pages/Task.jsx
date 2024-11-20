@@ -4,13 +4,12 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { TaskForm, TaskDone, Image, Button, InputForm } from "../components";
 import edit from "../assets/edit.svg";
-import logout from "../assets/log_out.svg";
+import signout from "../assets/log_out.svg";
 import { useAuth } from "../config/auth";
-import { removeAccessToken } from "../utils/tokenManager";
 
 const Task = () => {
   const { posts, getPosts, deletePost, updatePost } = usePostTask();
-  const { user, refreshUser } = useAuth();
+  const { user, refreshUser, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,8 +44,7 @@ const Task = () => {
   const validPosts = Array.isArray(posts) ? posts : [];
 
   const buttonLogOut = () => {
-    removeAccessToken();
-    localStorage.removeItem("user");
+    logout();
     navigate("/");
   };
 
@@ -80,7 +78,7 @@ const Task = () => {
           className="flex justify-center mt-3 bg-red-600 w-32 h-10 rounded-md"
           onClick={buttonLogOut}
         >
-          <Button title="Sign Out" src={logout} />
+          <Button title="Sign Out" src={signout} />
         </div>
       </div>
 

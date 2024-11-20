@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../config/axiosInstance";
-import { saveAccessToken } from "../utils/tokenManager";
+import { saveAccessToken, removeAccessToken } from "../utils/tokenManager";
 
 export const useAuth = create((set) => ({
   user: JSON.parse(localStorage.getItem("user")) || null,
@@ -20,6 +20,12 @@ export const useAuth = create((set) => ({
       console.error("Login failed:", error.response?.data || error);
       throw new Error("Invalid email or password");
     }
+  },
+
+  logout: () => {
+    removeAccessToken();
+    localStorage.removeItem("user");
+    set({ user: null });
   },
 
   refreshUser: async () => {
