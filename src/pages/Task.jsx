@@ -15,7 +15,7 @@ const Task = () => {
 
   useEffect(() => {
     getPosts();
-    refreshUser(); // Refresh user data when component is mounted
+    refreshUser();
   }, [getPosts, refreshUser]);
 
   const handleDelete = (id) => {
@@ -45,8 +45,8 @@ const Task = () => {
   const validPosts = Array.isArray(posts) ? posts : [];
 
   const buttonLogOut = () => {
-    localStorage.removeItem("user");
     removeAccessToken();
+    localStorage.removeItem("user");
     navigate("/");
   };
 
